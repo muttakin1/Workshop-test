@@ -37,6 +37,15 @@ app.get('/articles/all', function (request, response) {
     })
 })
 
+app.get('/articles/:id',function(request,response){
+    let id = request.params.id
+    Article.findById(id,function(err,data){
+        if(err){
+            // return response.status(400).json({error:'Article not found'})
+        }
+        return response.status(200).json(data)
+    })
+})
 
 
 

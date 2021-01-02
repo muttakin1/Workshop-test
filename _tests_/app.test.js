@@ -18,7 +18,7 @@ describe("When the article CRUD server is running", () => {
         expect(res.status).toBe(400)
         expect(typeof res.body).toEqual('object')
     })
-    
+
     it("should return 200 response and all the articles in DB on GET request to '/article/all'",
         async () => {
             const res = await request(app).get('/articles/all')
@@ -26,6 +26,26 @@ describe("When the article CRUD server is running", () => {
             expect(res.body.length).toEqual(1)
         }
     )
+
+    it("should return an article matching the ID in a GET request to '/article/id'",
+        async () => {
+            const allArticles = await request(app).get('/articles/all')
+            const id = allArticles.body[0]._id
+            console.log(id);
+            const res = await request(app).get('/articles/' + id)
+            expect(res.status).toBe(200)
+            expect(res.body.title).toEqual('test')
+
+        }
+    )
+
+    it("should return 400 status if an invalid ID is specided in a GET request to '/article/id'",
+    async () => {
+        const res = await request(app).get('/articles/hgo')
+        expect(res.status).toBe(400)
+        
+    }
+)
 
 
 
